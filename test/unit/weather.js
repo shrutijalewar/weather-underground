@@ -79,6 +79,15 @@ describe('Weather', function(){
 });
 });
 });
+  describe('.moon', function(){
+    it('should report the phase of the moon',function(done){
+      Weather.moon(37203, function(moon){
+        expect(moon).to.equal('Crescent');
+        done();
+
+});
+});
+});
 
 });
 
