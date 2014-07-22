@@ -25,8 +25,28 @@ describe('Weather', function(){
         done();
       });
     });
+
+
   });
+  describe('.avgHigh', function(){
+    it('should report the average of highs for ten days',function(done){
+      Weather.avgHigh(37209, function(temp){
+        expect(temp).to.be.closeTo(90, 10);
+        done();
+      });
+      });
+ });
+  describe('.avgLow', function(){
+    it('should report the average of lows for ten days',function(done){
+      Weather.avgLow(37209, function(temp){
+        expect(temp).to.be.closeTo(65, 10);
+        done();
+      });
+      });
+ });
 });
+
+
 
 
 
