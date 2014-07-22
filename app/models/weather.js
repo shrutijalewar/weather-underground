@@ -121,6 +121,26 @@ Weather.Deltas = function(zip, cb){
     });
 
 };
+Weather.moon = function(zip, cb){
+  var url = 'http://api.wunderground.com/api/536b90dc843299c1/astronomy/q/'+zip+'.json';
+    request(url, function(error, response, body){
+      body = JSON.parse(body);
+      var phase = 0;
+      var percent = parseInt(body.moon_phase.percentIlluminated);
+    if(percent <= 5){
+      phase = 'New';
+    }else if (percent <=44){
+      phase = 'Crescent';
+    }else if(percent <= 55){
+      phase = 'Quarter';
+    }else if(percent <= 94){
+      phase = 'Gibbous';
+    }else{
+    phase = 'full';
+    }
+    cb(phase);
+    });
+};
    
 //helper function//
 
