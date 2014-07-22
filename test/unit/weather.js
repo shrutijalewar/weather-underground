@@ -10,11 +10,19 @@ describe('Weather', function(){
     it('should check todays weather', function(){
     });
   });
-  describe(.high,function(){
-    it('should report the high temperature',function(){
+  describe('.high', function(){
+    it('should report the high temperature',function(done){
       Weather.high(37203, function(temp){
-      expect(temp).to.be.ok;
-      done();
+        expect(temp).to.have.length.above(1);
+        done();
+      });
+    });
+  });
+  describe('.low', function(){
+    it('should report the low temperature',function(done){
+      Weather.low(37203, function(temp){
+        expect(temp).to.have.length.above(1);
+        done();
       });
     });
   });
