@@ -49,6 +49,7 @@ Weather.avgHigh = function(zip, cb){
       }
     var avgTemp =sumTemp/10;
     cb(avgTemp);
+    //var sdHigh = Weather.stdev(temps, avgTemp);
 });
 
 };
@@ -70,10 +71,68 @@ Weather.avgLow = function(zip, cb){
       }
     var avgTemp =sumTemp/10;
     cb(avgTemp);
+    //var sdLow = Weather.stdev(temps, avgTemp);
+    
+    
 });
 
 };
+Weather.Lows = function(zip, cb){
+  var temps = [];
+  var url = 'http://api.wunderground.com/api/536b90dc843299c1/forecast10day/q/'+zip+'.json';
 
+    request(url, function(error, response, body){
+          body = JSON.parse(body);
+      for(var i=0; i<10; i++){
+     var temp = body.forecast.simpleforecast.forecastday[i].low.fahrenheit;
+      temps.push(parseInt(temp));
+      } 
+    cb(temps);
+    });
+};
+    
+
+Weather.Highs = function(zip, cb){
+  var temps = [];
+  var url = 'http://api.wunderground.com/api/536b90dc843299c1/forecast10day/q/'+zip+'.json';
+
+    request(url, function(error, response, body){
+          body = JSON.parse(body);
+      for(var i=0; i<10; i++){
+     var temp = body.forecast.simpleforecast.forecastday[i].high.fahrenheit;
+      temps.push(parseInt(temp));
+      } 
+    cb(temps);
+    });
+};
+
+Weather.Deltas = function(zip, cb){
+  var url = 'http://api.wunderground.com/api/536b90dc843299c1/forecast10day/q/'+zip+'.json';
+    request(url, function(error, response, body){
+      body = JSON.parse(body);
+      var temps = [];
+      var forecasts = body.forecast.simpleforecast.forecastday;
+
+      for(var i = 0; i < forecasts.length; i++){
+        temps.push(parseInt(forecasts[i].high.fahrenheit) - parseInt(forecasts[i].low.fahrenheit));
+      }
+
+      cb(temps);
+    });
+
+};
+   
+//helper function//
+
+Weather.stdev = function(numbers,avg){ 
+  var stdev = 0;
+
+  for(var i = 0; i < numbers.length; i++){
+    stdev += Math.pow((numbers[i] - avg), 2);
+     }
+
+  return Math.sqrt(stdev/numbers.length);
+};
 
 module.exports = Weather;
 
